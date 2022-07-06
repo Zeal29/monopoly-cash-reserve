@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import { getCurrentUserId } from "../utils/auth";
+import { getCurrentUser } from "../utils/auth";
 // 2. Define some routes
 // Each route should map to a component.
 
@@ -29,7 +29,7 @@ router.beforeResolve((to, from) => {
 		return true;
 	}
 
-	if (getCurrentUserId() == null) {
+	if (getCurrentUser() == null) {
 		console.log("rout 2");
 
 		router.push("/login");

@@ -1,14 +1,18 @@
 <script setup lang="ts"></script>
 
 <template>
-	<div>
-		<head>
-			<router-link to="/">Go to Home</router-link>
-			<router-link to="/about">Go to About</router-link>
-		</head>
+	<v-app>
+		<v-main>
+			<div>
+				<header>
+					<router-link to="/">Go to Home</router-link>
+					<router-link to="/about">Go to About</router-link>
+				</header>
 
-		<router-view></router-view>
-	</div>
+				<router-view></router-view>
+			</div>
+		</v-main>
+	</v-app>
 </template>
 
 <style>

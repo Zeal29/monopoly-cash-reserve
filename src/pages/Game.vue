@@ -244,7 +244,7 @@
 					<v-list-item v-if="cuurrentUser?.userId !== player.userId">
 						<v-list-item-content class="mx-auto" :style="`color: ${player.isBankrupt ? 'red' : ''}`">
 							<v-list-item-title>{{ player.name ?? "NO Name" }}</v-list-item-title>
-							<v-list-item-subtitle>Money: {{ player.money }}</v-list-item-subtitle>
+							<!-- <v-list-item-subtitle>Money: {{ player.money }}</v-list-item-subtitle> -->
 							<v-btn :disabled="player.isBankrupt" @click="sendMoney(cuurrentUser?.userId as string, player.userId)"
 								>Transfer Money</v-btn
 							>

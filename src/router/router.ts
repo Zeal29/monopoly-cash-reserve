@@ -18,7 +18,7 @@ export const router = createRouter({
 	routes: [
 		{ path: "/login", component: LoginVue },
 		{ path: "/", component: GamesVue },
-		{ path: "/:id", component: GameVue },
+		{ path: "/game/:id", component: GameVue },
 	], // short for `routes: routes`
 });
 

@@ -13,3 +13,7 @@ export function getCurrentUser(): User | null {
 export function setCurrentUser(user: User) {
 	localStorage.setItem(USER_ID_KEY, JSON.stringify(user));
 }
+
+export function logout() {
+	localStorage.removeItem(USER_ID_KEY);
+}

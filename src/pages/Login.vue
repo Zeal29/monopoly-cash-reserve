@@ -6,13 +6,15 @@
 				label="Passwors"
 				:type="isPasswordVisible ? 'password' : 'text'"
 				placeholder="Password"
-				:append-icon="isPasswordVisible ? 'mdi-eye' : 'mdi-eye-off'"
-				@click:append="togglePasswordVisibility"
+				:append-inner-icon="isPasswordVisible ? 'mdi-eye' : 'mdi-eye-off'"
+				@click:append-inner="togglePasswordVisibility"
 				@input="updatePassword"
 			></v-text-field>
 
-			<v-btn :loading="isLoadingLogin" block :disabled="isLoadingLogin" color="secondary" @click="login">Login</v-btn>
-			<v-btn :loading="isLoadingCreateAccount" block :disabled="isLoadingCreateAccount" @click="createAccount">Create Account</v-btn>
+			<v-btn block :loading="isLoadingLogin" :disabled="isLoadingLogin" color="secondary" @click="login">Login</v-btn>
+			<v-btn block class="mt-3" :loading="isLoadingCreateAccount" :disabled="isLoadingCreateAccount" @click="createAccount"
+				>Create Account</v-btn
+			>
 		</v-col>
 	</div>
 </template>
@@ -21,6 +23,7 @@
 	import { ref, onMounted, computed } from "vue";
 	import { createUser, getUser } from "../db/auth";
 	import { GUN } from "../db/index";
+	import { router } from "../router/router";
 	import { setCurrentUser } from "../utils/auth";
 
 	const isPasswordVisible = ref(true);
@@ -50,6 +53,8 @@
 		alert(`User ${userName.value} logged in`);
 
 		setCurrentUser(userPromise);
+
+		router.push("/");
 	}
 	async function createAccount() {
 		try {
@@ -67,4 +72,12 @@
 	}
 </script>
 
-<style scoped></style>
+<style scoped>
+	.p-40px {
+		padding-right: 40px;
+	}
+
+	.width {
+		width: 300px;
+	}
+</style>

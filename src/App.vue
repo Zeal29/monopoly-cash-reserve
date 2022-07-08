@@ -9,19 +9,21 @@
 		logout();
 		router.push("/login");
 	}
+
+	console.log(router.currentRoute.value, "hello");
 </script>
 
 <template>
 	<v-app>
 		<v-app-bar elevation="4" @click="drawer = !drawer">
 			<v-app-bar-nav-icon></v-app-bar-nav-icon>
-			<v-toolbar-title>Monopoly Cash Reserve</v-toolbar-title>
+			<v-toolbar-title>Monopoly Cash Reserve </v-toolbar-title>
 			<!-- <router-link to="/">Home</router-link>
 			<router-link to="/about">About</router-link> -->
 		</v-app-bar>
 
 		<v-navigation-drawer v-model="drawer">
-			<v-list dense nav>
+			<v-list dense nav v-if="router.currentRoute.value.path !== '/login'">
 				<v-list-item link to="/">
 					<v-list-item-content>
 						<v-list-item-title>Home</v-list-item-title>
@@ -56,7 +58,6 @@
 		font-family: Avenir, Helvetica, Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
-		text-align: center;
 		color: #2c3e50;
 		margin-top: 60px;
 	}

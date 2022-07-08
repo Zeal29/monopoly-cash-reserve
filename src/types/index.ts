@@ -27,4 +27,5 @@ export type Game = {
 	logs: Record<string, Log>;
 	players: Record<string, Player>;
 	createdAt: string;
+	key: string;
 };

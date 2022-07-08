@@ -11,6 +11,8 @@
 	import { randomUUID } from "crypto";
 	import { computed } from "@vue/reactivity";
 
+	const currentTab = ref(null);
+
 	const gameName = ref("");
 	const logs = ref(new Map<string, Log>());
 
@@ -164,7 +166,7 @@
 
 		const log: Log = {
 			userId: cuurrentUser.value?.userId,
-			message: `${fromPlayer.name} has sent ${amountGoingToBeTransfer.value} to ${toPlayer.name}`,
+			message: `${fromPlayer.name} has sent $${amountGoingToBeTransfer.value} to ${toPlayer.name}`,
 			createdAt: Date.now(),
 			logId: UID(),
 			logType: type,
@@ -205,58 +207,69 @@
 </script>
 
 <template>
-	<div>
-		<h2>Game Name: {{ gameName }}</h2>
-		<v-divider />
+	<v-col cols="12" sm="6" class="mx-auto">
+		<div>
+			<h2>Game Name: {{ gameName }}</h2>
+			<v-divider />
 
-		<h2>Money: {{ currentPlayer?.money }}</h2>
-		<h3>Name: {{ currentPlayer?.name }}</h3>
-		<h3 :style="`color: ${currentPlayer?.isBankrupt ? 'red' : ''}`">isBankrupt: {{ currentPlayer?.isBankrupt ? "Yes" : "No" }}</h3>
+			<h2>Money: {{ currentPlayer?.money }}</h2>
+			<h3>Name: {{ currentPlayer?.name }}</h3>
+			<h3 :style="`color: ${currentPlayer?.isBankrupt ? 'red' : ''}`">isBankrupt: {{ currentPlayer?.isBankrupt ? "Yes" : "No" }}</h3>
 
-		<v-divider />
+			<v-divider />
 
-		<h1 class="mt-5">Logs</h1>
-		<ul>
-			<v-list-item v-for="log in orderedLogs" :key="log.index">
-				<v-list-item-content
-					class="mx-auto"
-					:style="`color: ${log.logType === 'bankruptcy' ? 'red' : log.logType === 'bankReceive' ? 'green' : ''}`"
-				>
-					<v-list-item-title>{{ log.index }}. {{ log.message }}</v-list-item-title>
-					<v-list-item-subtitle>Created At: {{ log.formatedDate }}</v-list-item-subtitle>
-				</v-list-item-content>
-			</v-list-item>
-		</ul>
-
-		<v-divider />
-
-		<h1 class="mt-5">Players</h1>
-
-		<input type="number" v-model="amountGoingToBeTransfer" placeholder="Search" />
-
-		<ul>
-			<template v-for="[key, player] in players" :key="key">
-				<v-list-item v-if="cuurrentUser?.userId !== player.userId">
-					<v-list-item-content class="mx-auto" :style="`color: ${player.isBankrupt ? 'red' : ''}`">
-						<v-list-item-title>{{ player.name ?? "NO Name" }}</v-list-item-title>
-						<v-list-item-subtitle>Money: {{ player.money }}</v-list-item-subtitle>
-						<v-btn :disabled="player.isBankrupt" @click="sendMoney(cuurrentUser?.userId as string, player.userId)">Transfer Money</v-btn>
+			<h1 class="mt-5">Logs</h1>
+			<ul class="logsStyles">
+				<v-list-item v-for="log in orderedLogs" :key="log.index">
+					<v-list-item-content
+						class="mx-auto"
+						:style="`color: ${log.logType === 'bankruptcy' ? 'red' : log.logType === 'bankReceive' ? 'green' : ''}`"
+					>
+						<v-list-item-title>{{ log.index }}. {{ log.message }}</v-list-item-title>
+						<v-list-item-subtitle>Created At: {{ log.formatedDate }}</v-list-item-subtitle>
 					</v-list-item-content>
 				</v-list-item>
-				<v-divider />
-			</template>
-		</ul>
+			</ul>
 
-		<v-btn class="mx-auto" @click="getBankrupt" :disabled="!canBankrupt">Get Bankrupt</v-btn>
+			<v-divider />
 
-		<v-divider />
+			<h1 class="mt-5">Players</h1>
 
-		<h1>Take from bank</h1>
+			<input />
 
-		<v-btn class="mx-auto" :disabled="currentPlayer?.isBankrupt" @click="sendMoney('bank', currentPlayer?.userId as string,'bankReceive')"
-			>Get Money Form Bank</v-btn
-		>
-	</div>
+			<v-text-field class="mt-3" label="Money" type="number" v-model="amountGoingToBeTransfer" placeholder="Search"></v-text-field>
+
+			<ul>
+				<template v-for="[key, player] in players" :key="key">
+					<v-list-item v-if="cuurrentUser?.userId !== player.userId">
+						<v-list-item-content class="mx-auto" :style="`color: ${player.isBankrupt ? 'red' : ''}`">
+							<v-list-item-title>{{ player.name ?? "NO Name" }}</v-list-item-title>
+							<v-list-item-subtitle>Money: {{ player.money }}</v-list-item-subtitle>
+							<v-btn :disabled="player.isBankrupt" @click="sendMoney(cuurrentUser?.userId as string, player.userId)"
+								>Transfer Money</v-btn
+							>
+						</v-list-item-content>
+					</v-list-item>
+					<v-divider />
+				</template>
+			</ul>
+
+			<v-btn class="mx-auto" @click="getBankrupt" :disabled="!canBankrupt">Get Bankrupt</v-btn>
+
+			<v-divider />
+
+			<h1>Take from bank</h1>
+
+			<v-btn class="mx-auto" :disabled="currentPlayer?.isBankrupt" @click="sendMoney('bank', currentPlayer?.userId as string,'bankReceive')"
+				>Get Money Form Bank</v-btn
+			>
+		</div>
+	</v-col>
 </template>
 
-<style scoped></style>
+<style scoped>
+	.logsStyles {
+		height: 400px;
+		overflow: auto;
+	}
+</style>
